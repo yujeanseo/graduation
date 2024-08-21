@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 
-var sort = "";  // 변수 추가
+String sort = "";  // 변수 추가
 
 class SignInPage extends StatefulWidget {
   @override
@@ -27,8 +27,11 @@ class _SignInPageState extends State<SignInPage> {
   // 사용자에게 로그인 상태 또는 오류 메시지를 표시하기 위한 문자열 변수
   String _statusMessage = '';
 
+
   // 비동기 로그인 처리 메서드
   Future<void> _signIn() async {
+    // sort = ""; // 여기 있으면 안된다. 로그인 성공! 메시지만 나오고 화면이 안넘어감
+
     try {
       // 이메일과 비밀번호를 사용하여 사용자 로그인 시도
       final UserCredential userCredential =
@@ -49,21 +52,27 @@ class _SignInPageState extends State<SignInPage> {
           setState(() {
             _statusMessage = '로그인 성공!';
 
-            getDocument(_emailController.text);
+
+            print("login_screen.dart ${sort}");  // 여기서 문제 앞에 저장된 값으로 뜬다
+
+
             if (sort == "worker") {
               //return HomePage(user: user);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => HomePage(user: userCredential.user!)));
+              // sort = "";  // 다음거가 안바뀜
             }
             else if (sort == "manager") {
               //return Home2Page(user: user);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => Home2Page(user: userCredential.user!)));
+              //sort = "";  // 다음거가 안바뀜
             }
 
             // 홈 화면으로 이동
-            // Navigator.of(context).push(MaterialPageRoute(
-            //     builder: (context) => HomePage(user: userCredential.user!)));
+
+
+            //sort = "";  //의미가 없음
           });
         }
       }
@@ -113,6 +122,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     // MaterialApp과 Scaffold를 사용하여 로그인 페이지 UI 구성
     return MaterialApp(
+      debugShowCheckedModeBanner: false, //우측상단 빨간색 DEBUG 띠 없애기
       home: Scaffold(
         appBar: AppBar(title: Text("Sign In")),
         body: SingleChildScrollView(
@@ -139,7 +149,14 @@ class _SignInPageState extends State<SignInPage> {
               ),
               // 로그인 버튼
               ElevatedButton(
-                onPressed: _signIn,
+                onPressed: (){
+
+                  // 로그인하고 로그아웃하면 전에 로그인한 정보가 남아있어 제대로 페이지 전환이 되지 않는 문제 발생
+                  // getDocument를 먼저 실행하여 해결
+                  getDocument(_emailController.text);
+                  _signIn();
+
+                },// _signIn,
                 child: Text("로그인"),
               ),
 
@@ -165,6 +182,8 @@ class _SignInPageState extends State<SignInPage> {
 }
 // 여기부터 추가
 Future<void> getDocument(var em) async {
+  //var sort = "";
+
   // 참조할 문서 정의하기
   DocumentReference documentRef =
   FirebaseFirestore.instance.collection('member').doc(em);
@@ -182,8 +201,9 @@ Future<void> getDocument(var em) async {
     //debugPrint(data['contents']); // 문서 데이터 출력
     // debugPrint(data['title']); // 문서 데이터 출력
 
-    sort = data['division'];
-    print(sort); // 확인
+    sort = await data['division'];
+    print("login_screen.dart getDocument ${sort}"); // 확인
+
   }
 }
 // 여기까지 추가

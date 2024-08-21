@@ -87,6 +87,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false, //우측상단 빨간색 DEBUG 띠 없애기
       home: Scaffold(
         appBar: AppBar(title: Text("Sign Up")),
         body: SingleChildScrollView(

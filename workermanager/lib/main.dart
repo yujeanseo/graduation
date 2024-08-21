@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false, //우측상단 빨간색 DEBUG 띠 없애기
       // StreamBuilder를 사용하여 FirebaseAuth의 인증 상태 변경을 감지
       home: StreamBuilder<User?>(
         // FirebaseAuth.instance.authStateChanges()는 사용자 인증 상태가 변경될 때마다 스트림을 통해 알림
@@ -41,26 +42,6 @@ class MyApp extends StatelessWidget {
             else{
               getDocument(user.email);
 
-
-              // FirebaseFirestore.instance
-              //     .collection('member')
-              //     .get()
-              //     .then(
-              //       (querySnapshot) {
-              //     print("Successfully completed");
-              //     for (var docSnapshot in querySnapshot.docs) {  // 모든 데이터를 다 읽어온다
-              //       //print('${docSnapshot.id} => ${docSnapshot.data()}');
-              //       Map<String, dynamic> data =
-              //                     documentSnapshot.data() as Map<String, dynamic>;
-              //
-              //
-              //       // if (docSnapshot.division == 'worker') {
-              //       //
-              //       // }
-              //     }
-              //   },
-              //   onError: (e) => print("Error completing: $e"),
-              // );
               if (sort == "worker") {
                 return HomePage(user: user);
               }
@@ -108,7 +89,7 @@ Future<void> getDocument(var em) async {
     // debugPrint(data['title']); // 문서 데이터 출력
 
     sort = data['division'];
-    print(sort); // 확인
+    print("main.dart ${sort}"); // 확인
   }
 }
 // 여기까지 추가

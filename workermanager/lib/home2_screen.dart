@@ -5,6 +5,10 @@ import 'package:workermanager/login_screen.dart';
 import 'package:workermanager/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
+// 관리자 페이지
+
+
 class Home2Page extends StatelessWidget {
   // 사용자 정보를 담고 있는 User 객체를 final로 선언
   final User user;
@@ -55,7 +59,15 @@ class Home2Page extends StatelessWidget {
       // FirebaseAuth의 signOut 메서드를 호출하여 사용자를 로그아웃
       await FirebaseAuth.instance.signOut();
       // 로그아웃 후 현재 페이지를 종료하고 이전 화면으로 돌아감
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
+
+
+      // 얘로 수정함
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => SignInPage()));
+      // 얘로 하면 로그인 페이지로 넘어가지긴 한다
+
+
     } catch (e) {
       // 로그아웃 과정에서 오류가 발생한 경우 사용자에게 알림을 제공
       ScaffoldMessenger.of(context).showSnackBar(
