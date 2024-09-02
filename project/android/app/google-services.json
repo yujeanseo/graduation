@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "260878765561",
+    "project_id": "workermanager-803df",
+    "storage_bucket": "workermanager-803df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260878765561:android:12431cdaa324eddb904128",
+        "android_client_info": {
+          "package_name": "com.example.workermanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGlaP5hmoh4qj9xsbR5HtcybGBsErZaEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
